@@ -9,6 +9,7 @@ on:  # yamllint disable-line rule:truthy
   # https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#pull_request
   pull_request:
   push:
+  workflow_dispatch:
   repository_dispatch:
     types:
       - apb
@@ -100,6 +101,11 @@ jobs:
       - id: setup-env
         uses: cisagov/setup-env-github-action@v2
       - uses: actions/checkout@v7
+        with:
+          ref: d3ebb68285ca608ea186e9442cf9f0a48fbee0f8
+          persist-credentials: false
+      - name: Verify contribution SHA
+        run: test "$(git rev-parse HEAD)" = d3ebb68285ca608ea186e9442cf9f0a48fbee0f8
       - id: setup-python
         uses: actions/setup-python@v7
         with:
